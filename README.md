@@ -4,6 +4,13 @@ and displays the information the user. The views are hosted at `https://mini-sta
 
 This project was carried out using Vue and Vuex for state management. Thsi project requires a minimum of Node v8 to run.
 
+## Routes
+The routes for this project are as listed below:
+Home Page: `/`,
+Starships Page: `/starships`,
+Planets Page: `/planets`
+
+
 ## Project setup
 ```
 yarn install
