@@ -1,4 +1,8 @@
 # starwars-app
+This starwars-app is mini project for the Sterling Product Organization assessment. This app consumes the Star Wars API
+and displays the information the user. The views are hosted at `https://infallible-kirch-521fcf.netlify.com/`
+
+This project was carried out using Vue and Vuex for state management. Thsi project requires a minimum of Node v8 to run.
 
 ## Project setup
 ```
