@@ -1,0 +1,38 @@
+import axiosCalls from '@/utils/api/axiosCalls'
+
+export default {
+  state: {
+    loading: false,
+    peopleData: {},
+    error: ''
+  },
+  mutations: {
+    FETCH_PEOPLE_LOADING (state) {
+      state.loading = true
+    },
+    FETCH_PEOPLE_SUCCESS (state, payload) {
+      state.peopleData = payload
+      state.loading = false
+    },
+    FETCH_PEOPLE_ERROR (state, payload) {
+      state.error = payload
+      state.loading = false
+    }
+  },
+  actions: {
+    getPeople: async ({ commit }) => {
+      commit('FETCH_PEOPLE_LOADING')
+      try {
+        const data = await axiosCalls.Get(`people/`)
+        console.log(data)
+        if (data) {
+          const { results } = data
+          console.log(results)
+          commit('FETCH_PEOPLE_SUCCESS', { results })
+        }
+      } catch (error) {
+        commit('FETCH_PRODUCTS_ERROR', error)
+      }
+    }
+  }
+}
