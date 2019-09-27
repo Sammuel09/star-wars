@@ -1,11 +1,15 @@
 <template>
     <div class="container-fluid">
         <div class="logo-container">
-             <img alt="Vue logo" src="../assets/logo.png" class="logo">
+            <router-link :to="`/`"><img alt="Starwars logo" src="../assets/logo.png" class="logo"></router-link>
+            <div class="navigation">
+                <router-link class="starship-nav" :to="`/starships`">Starships</router-link>
+                <router-link class="planet-nav" :to="`/planets`">Planets</router-link>
+            </div>
         </div>
         <div class="header">
             <div class="hero-header">
-               <img alt="Vue logo" src="../assets/logo.png" class="logo">
+               <img alt="Starswars logo" src="../assets/logo.png" class="logo">
                <h3 class="hero-header-text">Directory</h3>
             </div>
             <div class="header-text">
@@ -42,6 +46,7 @@ export default {
 
 .logo-container{
     display: flex;
+    justify-content: space-between;
     padding-left: 40px;
     padding-top: 30px;
 }
@@ -88,6 +93,20 @@ export default {
     outline: none;
 }
 
+.navigation{
+    display: flex;
+    margin-right: 100px;
+}
+
+.navigation .starship-nav{
+    padding-right: 10px;
+    color: #fff;
+}
+
+.navigation .planet-nav{
+    color: #fff;
+}
+
 @media only screen and (max-width: 400px) {
     .header-text{
         margin-left: 20px;
@@ -95,6 +114,10 @@ export default {
     .search{
         width: 80%;
         display: flex;
+    }
+    .navigation{
+        display: flex;
+        margin-right: 30px;
     }
 }
 </style>

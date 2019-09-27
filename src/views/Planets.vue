@@ -3,41 +3,24 @@
     <Header/>
     <div class="container">
         <div class="headline-top">
-        <p class="headline">Starwars Characters</p>
-        <div class="headline-line"></div>
-      </div>
-      <div class="select-options">
-        <div class="filter-gender">
-          <label for="filter-gender">FILTER</label>
-          <select name="" id="filter-gender">
-            <option value="volvo">Male</option>
-            <option value="saab">Female</option>
-            <option value="saab">Robot</option>
-          </select>
+            <p class="headline">Popular Starships</p>
+            <div class="headline-line"></div>
         </div>
-
-        <div class="filter-gender">
-          <label for="filter-gender">VIEW</label>
-          <select name="" id="filter-gender">
-            <option value="volvo">Grid</option>
-            <option value="saab">Landscape</option>
-          </select>
-        </div>
-      </div>
-      <div class="spinner" v-if="loading">
+      <!-- <div class="spinner" v-if="loading">
           <font-awesome-icon icon="spinner" spin/>
-      </div>
-      <div class="error" v-if="error">
+      </div> -->
+      <!-- <div class="error" v-if="error">
           <p>There was an error getting your data from the database</p>
-      </div>
-      <div class="grid-container">
-        <div v-for="person in peopleData" :key="person.name">
-          <PersonCard
-          :name="person.name"
-          :birthYear="person.birth_year"
-          :gender="person.gender"/>
+      </div> -->
+      <!-- <div class="grid-container">
+        <div v-for="starship in starships" :key="starship.name">
+          <Starship
+          :name="starship.name"
+          :model="starship.model"
+          :cargoCapacity="starship.cargo_capacity"/>
         </div>
-      </div>
+      </div> -->
+      <PlanetCard />
       <div class="pagination">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
       </div>
@@ -50,17 +33,17 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import PersonCard from '@/components/PersonCard.vue'
+import PlanetCard from '@/components/PlanetCard.vue'
 import { mapActions, mapState } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import vSelect from 'vue-select'
 
 export default {
-  name: 'home',
+  name: 'starships',
   components: {
     Header,
     Footer,
-    PersonCard,
+    PlanetCard,
     FontAwesomeIcon
   },
   data () {
@@ -71,18 +54,18 @@ export default {
     }
   },
   created () {
-    this.getPeople()
+    this.getStarships()
   },
   methods: {
     ...mapActions([
-      'getPeople'
+      'getStarships'
     ])
   },
   computed: {
     ...mapState({
-      peopleData: state => state.Home.peopleData.results,
-      loading: state => state.Home.loading,
-      error: state => state.Home.error
+      starships: state => state.Starship.starshipData.results,
+      loading: state => state.Starship.loading,
+      error: state => state.Starship.error
     })
   }
 }
@@ -141,10 +124,10 @@ select{
 
 .grid-container{
   display: grid;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
-  grid-template-columns: auto auto;
-  margin-top: 10px;
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 50px;
   margin-bottom: 15px;
 }
 
@@ -164,13 +147,6 @@ select{
   justify-content: center;
   margin-top:35px;
   margin-bottom: 20px;
-}
-
-@media only screen and (max-width: 400px) {
-  .select-options{
-    display: flex;
-    flex-direction: column;
-  }
 }
 
 @media only screen and (max-width: 800px) {
