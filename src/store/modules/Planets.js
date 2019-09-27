@@ -7,31 +7,39 @@ export default {
     error: ''
   },
   mutations: {
-    FETCH_STARSHIPS_LOADING (state) {
+    FETCH_PLANETS_LOADING (state) {
       state.loading = true
     },
-    FETCH_STARSHIPS_SUCCESS (state, payload) {
-      state.starshipData = payload
+    FETCH_PLANETS_SUCCESS (state, payload) {
+      state.planetData = payload
       state.loading = false
     },
-    FETCH_STARSHIPS_ERROR (state, payload) {
+    FETCH_PLANET_ERROR (state, payload) {
       state.error = payload
       state.loading = false
     }
   },
   actions: {
-    getStarships: async ({ commit }) => {
-      commit('FETCH_STARSHIPS_LOADING')
+    getPlanets: async ({ commit }) => {
+      commit('FETCH_PLANETS_LOADING')
+      const data = await axiosCalls.Get(`planets`)
+      // const {data, message} = await AxiosCalls.awaitGet(`users/${userId}/products`)
+      // if (data) {
+      //   const { results, message } = data
+      //   commit('FETCH_PLANETS_SUCCESS', { results, message })
+      // } else {
+      //   commit('FETCH_PLANETS_ERROR', message)
+      // }
       try {
-        const data = await axiosCalls.Get(`starships/`)
+        const data = await axiosCalls.Get(`planets/`)
         console.log(data)
         if (data) {
           const { results } = data
           console.log(results)
-          commit('FETCH_STARSHIPS_SUCCESS', { results })
+          commit('FETCH_PLANETS_SUCCESS', { results })
         }
       } catch (error) {
-        commit('FETCH_STARSHIPS_ERROR', error)
+        commit('FETCH_PLANETS_ERROR', error)
       }
     }
   }

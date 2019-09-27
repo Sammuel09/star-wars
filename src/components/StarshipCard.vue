@@ -96,6 +96,7 @@ export default {
 .read-more{
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 400px) {

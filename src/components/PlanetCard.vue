@@ -4,10 +4,10 @@
         <img src="@/assets/planet-3.jpg" alt="A Starwars Planet" class="planet-image">
         <div>
               <div class="card-name">
-                <p class="card-name-title">Yavin IV</p>
+                <p class="card-name-title">{{name}}</p>
                 <div class="card-info">
-                    <small class="card-name-nickname">temperate</small>
-                    <span class="card-name-info">1000</span>
+                    <small class="card-name-nickname">{{temperature}}</small>
+                    <span class="card-name-info">{{population}}</span>
                 </div>
                 <p class="card-description">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente cupiditate non ad! Suscipit,
@@ -26,11 +26,11 @@
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
-  name: 'StarshipCard',
+  name: 'PlanetCard',
   props: [
     'name',
-    'model',
-    'cargoCapacity'
+    'temperature',
+    'population'
   ],
   components: {
     // FontAwesomeIcon,
@@ -96,6 +96,7 @@ export default {
 .read-more{
     display: flex;
     justify-content: flex-end;
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 400px) {

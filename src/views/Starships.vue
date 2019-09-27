@@ -47,8 +47,6 @@ export default {
   },
   data () {
     return {
-      filterOptionSelected: '',
-      filterOptions: ['Male', 'Female', 'Robot'],
       linkGen: ''
     }
   },

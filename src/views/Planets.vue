@@ -3,24 +3,23 @@
     <Header/>
     <div class="container">
         <div class="headline-top">
-            <p class="headline">Popular Starships</p>
+            <p class="headline">Popular Planets</p>
             <div class="headline-line"></div>
         </div>
-      <!-- <div class="spinner" v-if="loading">
+      <div class="spinner" v-if="loading">
           <font-awesome-icon icon="spinner" spin/>
-      </div> -->
-      <!-- <div class="error" v-if="error">
+      </div>
+      <div class="error" v-if="error">
           <p>There was an error getting your data from the database</p>
-      </div> -->
-      <!-- <div class="grid-container">
-        <div v-for="starship in starships" :key="starship.name">
-          <Starship
-          :name="starship.name"
-          :model="starship.model"
-          :cargoCapacity="starship.cargo_capacity"/>
+      </div>
+      <div class="grid-container">
+        <div v-for="planet in planets" :key="planet.name">
+          <PlanetCard
+          :name="planet.name"
+          :temperature="planet.climate"
+          :population="planet.population"/>
         </div>
-      </div> -->
-      <PlanetCard />
+      </div>
       <div class="pagination">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
       </div>
@@ -39,7 +38,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import vSelect from 'vue-select'
 
 export default {
-  name: 'starships',
+  name: 'planets',
   components: {
     Header,
     Footer,
@@ -48,24 +47,22 @@ export default {
   },
   data () {
     return {
-      filterOptionSelected: '',
-      filterOptions: ['Male', 'Female', 'Robot'],
       linkGen: ''
     }
   },
   created () {
-    this.getStarships()
+    this.getPlanets()
   },
   methods: {
     ...mapActions([
-      'getStarships'
+      'getPlanets'
     ])
   },
   computed: {
     ...mapState({
-      starships: state => state.Starship.starshipData.results,
-      loading: state => state.Starship.loading,
-      error: state => state.Starship.error
+      planets: state => state.Planets.planetData.results,
+      loading: state => state.Planets.loading,
+      error: state => state.Planets.error
     })
   }
 }
