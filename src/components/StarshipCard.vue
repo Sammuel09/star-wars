@@ -1,20 +1,22 @@
 
 <template>
     <div class="card">
-        <img src="@/assets/character-1.jpg" alt="Star Wars Chaarcter" class="person-image">
+        <img src="@/assets/starship-3.jpg" alt="A Starwars Starship" class="starship-image">
         <div>
-            <div class="card-name">
+              <div class="card-name">
                 <p class="card-name-title">{{name}}</p>
                 <div class="card-info">
-                    <small class="card-name-nickname">{{birthYear}}</small>
-                    <span class="card-name-info">{{gender}}</span>
+                    <small class="card-name-nickname">{{model}}</small>
+                    <span class="card-name-info">{{cargoCapacity}}</span>
                 </div>
                 <p class="card-description">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente cupiditate non ad! Suscipit,
                     qui quidem temporibus perspiciatis laudantium hic et provident, at vero deleniti,
                     labore consequuntur eveniet molestiae similique assumenda
-                    <span><router-link class="read-more" :to="`#`">... Read More</router-link></span>
                 </p>
+                <div class="read-more">
+                    <router-link class="btn btn-secondary" tag="button" :to="`#`">Read More</router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -24,11 +26,11 @@
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
-  name: 'PersonCard',
+  name: 'StarshipCard',
   props: [
     'name',
-    'birthYear',
-    'gender'
+    'model',
+    'cargoCapacity'
   ],
   components: {
     // FontAwesomeIcon,
@@ -43,13 +45,12 @@ export default {
 
 <style lang="scss" scoped>
 .card{
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-column-gap: 5px;
+    display: flex;
+    flex-direction: column;
     background-color: #f2f2f2;
 }
 
-.person-image{
+.starship-image{
     height: 100%;
     width: 100%;
 }
@@ -78,7 +79,6 @@ export default {
 
 .card-name-info{
     font-style: italic;
-    text-transform: capitalize;
 }
 
 .card-info{
@@ -91,6 +91,11 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: justify;
+}
+
+.read-more{
+    display: flex;
+    justify-content: flex-end;
 }
 
 @media only screen and (max-width: 400px) {
