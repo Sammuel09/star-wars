@@ -1,6 +1,7 @@
 
 <template>
-    <div class="card">
+    <div>
+      <div class="card">
         <img src="@/assets/character-1.jpg" alt="Star Wars Chaarcter" class="person-image">
         <div>
             <div class="card-name">
@@ -13,29 +14,34 @@
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente cupiditate non ad! Suscipit,
                     qui quidem temporibus perspiciatis laudantium hic et provident, at vero deleniti,
                     labore consequuntur eveniet molestiae similique assumenda
-                    <span><router-link class="read-more" :to="`#`">... Read More</router-link></span>
                 </p>
+                
+                <!-- This button emits the open=modal event with the value of url back to the parent.
+                    This way the modal in the parent can display the info for each character -->
+                <b-button class="read-more" v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
             </div>
         </div>
+      </div>
     </div>
 </template>
 
 <script>
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
 export default {
   name: 'PersonCard',
   props: [
     'name',
     'birthYear',
-    'gender'
+    'gender',
+    'url'
   ],
-  components: {
-    // FontAwesomeIcon,
+  methods: {
+    emitModal: () => console.log('emit')
   },
-  data () {
-    return {
-      text: ''
+  filters: {
+    extract: value => {
+      const url = value.slice(20, -1)
+      return url
     }
   }
 }
@@ -89,8 +95,11 @@ export default {
 
 .card-description{
     margin-top: 10px;
-    margin-bottom: 10px;
     text-align: justify;
+}
+
+.read-more{
+  margin-top: 10px;
 }
 
 @media only screen and (max-width: 400px) {

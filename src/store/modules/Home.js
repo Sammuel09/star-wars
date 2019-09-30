@@ -6,6 +6,11 @@ export default {
     peopleData: {},
     error: ''
   },
+  getters: {
+    getPersonById: (state) => (url) => {
+      return state.peopleData.results.find(person => person.url === url)
+    }
+  },
   mutations: {
     FETCH_PEOPLE_LOADING (state) {
       state.loading = true
