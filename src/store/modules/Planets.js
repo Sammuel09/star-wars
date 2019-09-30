@@ -6,6 +6,11 @@ export default {
     planetData: {},
     error: ''
   },
+  getters: {
+    getPlanetById: (state) => (url) => {
+      return state.planetData.results.find(planet => planet.url === url)
+    }
+  },
   mutations: {
     FETCH_PLANETS_LOADING (state) {
       state.loading = true
@@ -22,14 +27,6 @@ export default {
   actions: {
     getPlanets: async ({ commit }) => {
       commit('FETCH_PLANETS_LOADING')
-      const data = await axiosCalls.Get(`planets`)
-      // const {data, message} = await AxiosCalls.awaitGet(`users/${userId}/products`)
-      // if (data) {
-      //   const { results, message } = data
-      //   commit('FETCH_PLANETS_SUCCESS', { results, message })
-      // } else {
-      //   commit('FETCH_PLANETS_ERROR', message)
-      // }
       try {
         const data = await axiosCalls.Get(`planets/`)
         console.log(data)
