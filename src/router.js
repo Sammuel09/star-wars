@@ -23,6 +23,11 @@ export default new Router({
       path: '/planets',
       name: 'planets',
       component: () => import('@/views/Planets')
+    },
+    {
+      path: '/people/:id',
+      name: 'person',
+      component: () => import('@/views/Person')
     }
   ]
 })
