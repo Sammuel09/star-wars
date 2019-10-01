@@ -10,14 +10,64 @@
           <font-awesome-icon icon="spinner" spin/>
       </div>
       <div class="error" v-if="error">
-          <p>There was an error getting your data from the database</p>
+          <p>There was an error getting your starshipData from the starshipDatabase</p>
       </div>
+      <b-modal
+      id="modal-1"
+      size="md"
+      centered
+      hide-header-close
+      ok-only
+      ok-title="close"
+      ok-variant="danger">
+        <template v-slot:modal-title class="my-4 hello">
+          Detailed Information
+        </template>
+        <template class="my-4">
+            <div class="modal-info">
+              <div class="info">
+                <div class="info-title">MGLT: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).MGLT}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Cargo Capacity: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).cargo_capacity}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Consumables: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).consumables}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Cost in Credits: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).cost_in_credits}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Crew: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).crew}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Hyperdrive Rating: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).hyperdrive_rating}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Manufacturer: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).manufacturer}} </div>
+              </div>
+              <div class="info">
+                <div class="info-title">Max Atmosphering Speed: </div>
+                <div class="info-detail">{{getStarshipById(starshipData).max_atmosphering_speed}} kg</div>
+              </div>
+            </div>
+        </template>
+      </b-modal>
       <div class="grid-container">
         <div v-for="starship in starships" :key="starship.name">
           <StarshipCard
           :name="starship.name"
           :model="starship.model"
-          :cargoCapacity="starship.cargo_capacity"/>
+          :cargoCapacity="starship.cargo_capacity"
+          :url="starship.url"
+          v-on:open-modal="openModal"/>
         </div>
       </div>
       <div class="pagination">
@@ -33,7 +83,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import StarshipCard from '@/components/StarshipCard.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import vSelect from 'vue-select'
 
@@ -47,7 +97,8 @@ export default {
   },
   data () {
     return {
-      linkGen: ''
+      linkGen: '',
+      starshipData: 'https://swapi.co/api/starships/15/'
     }
   },
   created () {
@@ -56,14 +107,21 @@ export default {
   methods: {
     ...mapActions([
       'getStarships'
-    ])
+    ]),
+    openModal (url) {
+      console.log('hello')
+      this.starshipData = url
+    }
   },
   computed: {
     ...mapState({
       starships: state => state.Starship.starshipData.results,
       loading: state => state.Starship.loading,
       error: state => state.Starship.error
-    })
+    }),
+    ...mapGetters([
+      'getStarshipById'
+    ])
   }
 }
 </script>
@@ -144,6 +202,21 @@ select{
   justify-content: center;
   margin-top:35px;
   margin-bottom: 20px;
+}
+
+.modal-info{
+  display: flex;
+  flex-direction: column;
+}
+
+.info{
+  display: flex;
+}
+
+.info-detail{
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-left: 20px;
 }
 
 @media only screen and (max-width: 800px) {

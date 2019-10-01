@@ -6,6 +6,14 @@ export default {
     starshipData: {},
     error: ''
   },
+  getters: {
+    // getPersonById: (state) => (url) => {
+    //   return state.peopleData.results.find(person => person.url === url)
+    // },
+    getStarshipById: (state) => (url) => {
+      return state.starshipData.results.find(starship => starship.url === url)
+    }
+  },
   mutations: {
     FETCH_STARSHIPS_LOADING (state) {
       state.loading = true
@@ -23,7 +31,9 @@ export default {
     getStarships: async ({ commit }) => {
       commit('FETCH_STARSHIPS_LOADING')
       try {
+        console.log('hit')
         const data = await axiosCalls.Get(`starships/`)
+        console.log('hello')
         console.log(data)
         if (data) {
           const { results } = data

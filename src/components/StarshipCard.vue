@@ -14,8 +14,11 @@
                     qui quidem temporibus perspiciatis laudantium hic et provident, at vero deleniti,
                     labore consequuntur eveniet molestiae similique assumenda
                 </p>
+
+                <!-- This button emits the open=modal event with the value of url back to the parent.
+                    This way the modal in the parent can display the info for each starship -->
                 <div class="read-more">
-                    <router-link class="btn btn-secondary" tag="button" :to="`#`">Read More</router-link>
+                    <b-button v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
                 </div>
             </div>
         </div>
@@ -30,7 +33,8 @@ export default {
   props: [
     'name',
     'model',
-    'cargoCapacity'
+    'cargoCapacity',
+    'url'
   ],
   components: {
     // FontAwesomeIcon,

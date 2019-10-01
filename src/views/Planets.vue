@@ -12,12 +12,54 @@
       <div class="error" v-if="error">
           <p>There was an error getting your data from the database</p>
       </div>
+      <b-modal
+      id="modal-1"
+      size="md"
+      centered
+      hide-header-close
+      ok-only
+      ok-title="close"
+      ok-variant="danger">
+        <template v-slot:modal-title class="my-4 hello">
+          Detailed Information
+        </template>
+        <template class="my-4">
+            <div class="modal-info">
+              <div class="info">
+                <div class="info-title">Diameter: </div>
+                <div class="info-detail">{{getPlanetById(planetData).diameter}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Gravity: </div>
+                <div class="info-detail">{{getPlanetById(planetData).gravity}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Orbital Period: </div>
+                <div class="info-detail">{{getPlanetById(planetData).orbital_period}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Rotation Period: </div>
+                <div class="info-detail">{{getPlanetById(planetData).rotation_period}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Surface Water: </div>
+                <div class="info-detail">{{getPlanetById(planetData).surface_water}}</div>
+              </div>
+              <div class="info">
+                <div class="info-title">Terrain: </div>
+                <div class="info-detail">{{getPlanetById(planetData).terrain}}</div>
+              </div>
+            </div>
+        </template>
+      </b-modal>
       <div class="grid-container">
         <div v-for="planet in planets" :key="planet.name">
           <PlanetCard
           :name="planet.name"
           :temperature="planet.climate"
-          :population="planet.population"/>
+          :population="planet.population"
+          :url="planet.url"
+          v-on:open-modal="openModal"/>
         </div>
       </div>
       <div class="pagination">
@@ -33,7 +75,7 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import PlanetCard from '@/components/PlanetCard.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import vSelect from 'vue-select'
 
@@ -47,7 +89,8 @@ export default {
   },
   data () {
     return {
-      linkGen: ''
+      linkGen: '',
+      planetData: 'https://swapi.co/api/planets/2/'
     }
   },
   created () {
@@ -56,14 +99,20 @@ export default {
   methods: {
     ...mapActions([
       'getPlanets'
-    ])
+    ]),
+    openModal (url) {
+      this.planetData = url
+    }
   },
   computed: {
     ...mapState({
       planets: state => state.Planets.planetData.results,
       loading: state => state.Planets.loading,
       error: state => state.Planets.error
-    })
+    }),
+    ...mapGetters([
+      'getPlanetById'
+    ])
   }
 }
 </script>
@@ -144,6 +193,21 @@ select{
   justify-content: center;
   margin-top:35px;
   margin-bottom: 20px;
+}
+
+.modal-info{
+  display: flex;
+  flex-direction: column;
+}
+
+.info{
+  display: flex;
+}
+
+.info-detail{
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-left: 20px;
 }
 
 @media only screen and (max-width: 800px) {

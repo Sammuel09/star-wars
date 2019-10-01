@@ -69,11 +69,11 @@
               </div>
               <div class="info">
                 <div class="info-title">Height: </div>
-                <div class="info-detail">{{getPersonById(data).height}}cm</div>
+                <div class="info-detail">{{getPersonById(data).height}} cm</div>
               </div>
               <div class="info">
                 <div class="info-title">Mass: </div>
-                <div class="info-detail">{{getPersonById(data).mass}}Kg</div>
+                <div class="info-detail">{{getPersonById(data).mass}} Kg</div>
               </div>
             </div>
         </template>
@@ -134,9 +134,6 @@ export default {
     ]),
     openModal (url) {
       this.data = url
-    },
-    closeModal () {
-      this.isModalVisible = false
     }
   },
   computed: {

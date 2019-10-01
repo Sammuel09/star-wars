@@ -18,7 +18,9 @@
                 
                 <!-- This button emits the open=modal event with the value of url back to the parent.
                     This way the modal in the parent can display the info for each character -->
-                <b-button class="read-more" v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
+                <div class="read-more">
+                  <b-button v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
+                </div>
             </div>
         </div>
       </div>
@@ -99,6 +101,8 @@ export default {
 }
 
 .read-more{
+  display: flex;
+  justify-content: flex-end;
   margin-top: 10px;
 }
 
