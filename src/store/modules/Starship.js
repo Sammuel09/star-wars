@@ -36,10 +36,7 @@ export default {
     getStarships: async ({ commit }) => {
       commit('FETCH_STARSHIPS_LOADING')
       try {
-        console.log('hit')
         const data = await axiosCalls.Get(`starships/`)
-        console.log('hello')
-        console.log(data)
         if (data) {
           const { results } = data
           console.log(results)

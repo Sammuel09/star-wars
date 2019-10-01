@@ -27,7 +27,7 @@ export default {
       state.planetData = payload
       state.loading = false
     },
-    FETCH_PLANET_ERROR (state, payload) {
+    FETCH_PLANETS_ERROR (state, payload) {
       state.error = payload
       state.loading = false
     }

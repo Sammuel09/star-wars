@@ -1,7 +1,7 @@
 
 <template>
     <div>
-      <div class="card">
+      <div class="item-card">
         <img src="@/assets/character-1.jpg" alt="Star Wars Chaarcter" class="person-image">
         <div>
             <div class="card-name">
@@ -50,9 +50,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card{
+.item-card{
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 5px;
   background-color: #f2f2f2;
 }
@@ -108,8 +108,8 @@ export default {
   margin-top: 10px;
 }
 
-@media only screen and (max-width: 400px) {
-  .card{
+@media only screen and (max-width: 415px) {
+  .item-card{
     display: flex;
     flex-direction: column;
     background-color: #f2f2f2;

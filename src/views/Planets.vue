@@ -2,16 +2,16 @@
   <div class="home">
     <Header
     v-on:search="searchMethod"/>
-    <div class="container">
-        <div class="headline-top">
-            <p class="headline">Popular Planets</p>
-            <div class="headline-line"></div>
-        </div>
-      <div class="spinner" v-if="loading">
-          <font-awesome-icon icon="spinner" spin/>
-      </div>
-      <div class="error" v-if="error">
-          <p>There was an error getting your data from the database</p>
+    <div class="spinner" v-if="loading">
+        <font-awesome-icon icon="spinner" spin/>
+    </div>
+    <div class="error" v-else-if="error">
+      <p>There was an error getting your data from the database</p>
+    </div>
+    <div class="container" v-else>
+      <div class="headline-top">
+          <p class="headline">Popular Planets</p>
+          <div class="headline-line"></div>
       </div>
       <b-modal
       id="modal-1"
@@ -192,8 +192,8 @@ select{
 
 .spinner{
   text-align: center;
-  font-size: 100px;
-  margin-top: 70px;
+  font-size: 150px;
+  margin-top: 100px;
 }
 
 .error{

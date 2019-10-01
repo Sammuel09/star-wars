@@ -18,13 +18,12 @@ export default {
         }
       )
     },
-    filteredPersonsByGender: (state) => (gender) => {
+    filteredPersonsByGender: (state, { commit }) => (gender) => {
       if (gender === 'all') {
         return state.peopleData.results
       }
       return state.peopleData.results.filter(
         (data) => {
-          console.log(data)
           return data.gender === gender
         }
       )
@@ -62,7 +61,7 @@ export default {
           commit('FETCH_PEOPLE_SUCCESS', { results })
         }
       } catch (error) {
-        commit('FETCH_PRODUCTS_ERROR', error)
+        commit('FETCH_PEOPLE_ERROR', error)
       }
     }
   }
