@@ -4,26 +4,13 @@
     v-on:search="searchMethod"
     />
     <div class="container">
-        <div class="headline-top">
+      <div class="headline-top">
         <p class="headline">Starwars Characters</p>
         <div class="headline-line"></div>
       </div>
       <div class="select-options">
-        <div class="filter-gender">
-          <label for="filter-gender">FILTER</label>
-          <select name="" id="filter-gender">
-            <option value="volvo">Male</option>
-            <option value="saab">Female</option>
-            <option value="saab">Robot</option>
-          </select>
-        </div>
-
-        <div class="filter-gender">
-          <label for="filter-gender">VIEW</label>
-          <select name="" id="filter-gender">
-            <option value="volvo">Grid</option>
-            <option value="saab">Landscape</option>
-          </select>
+        <div>
+          <b-form-select class="select" size="sm" v-model="gender" :options="options"></b-form-select>
         </div>
       </div>
       <div class="spinner" v-if="loading">
@@ -81,7 +68,7 @@
         </template>
       </b-modal>
       <div class="grid-container">
-        <div v-for="person in filteredPersons(searchData)" :key="person.name">
+        <div v-for="person in filteredPersons(gender, searchData)" :key="person.name">
 
           <!-- The open-modal custom event listens for an emit event from the child component
               On receiving the emit event, it fires the openModal method that opens the modal -->
@@ -93,7 +80,7 @@
           v-on:open-modal="openModal"/>
         </div>
       </div>
-      <div class="empty-search" v-if="filteredPersons(searchData).length == 0">
+      <div class="empty-search" v-if="filteredPersonsByName(searchData).length == 0">
           <img src="@/assets/no_data.svg" alt="No Data" class="empty-search-image">
           <div class="empty-search-text">
             No results
@@ -114,7 +101,6 @@ import Footer from '@/components/Footer.vue'
 import PersonCard from '@/components/PersonCard.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-// import vSelect from 'vue-select'
 
 export default {
   name: 'home',
@@ -126,12 +112,17 @@ export default {
   },
   data () {
     return {
-      filterOptionSelected: '',
-      filterOptions: ['Male', 'Female', 'Robot'],
+      gender: 'all',
       linkGen: '',
       isModalVisible: false,
       data: 'https://swapi.co/api/people/1/',
-      searchData: ''
+      searchData: '',
+      options: [
+        { value: 'all', text: 'All' },
+        { value: 'male', text: 'Male' },
+        { value: 'female', text: 'Female' },
+        { value: 'n/a', text: 'Robot' }
+      ]
     }
   },
   created () {
@@ -157,7 +148,8 @@ export default {
     }),
     ...mapGetters([
       'getPersonById',
-      'filteredPersons'
+      'filteredPersons',
+      'filteredPersonsByName'
     ])
   }
 }
@@ -195,13 +187,12 @@ hr{
 }
 
 select{
-  border-radius: 5%;
   border: 1px solid #424242;
 }
 
 .select-options{
   display: flex;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .filter-gender{
@@ -216,10 +207,10 @@ select{
 
 .grid-container{
   display: grid;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
+  grid-column-gap: 25px;
+  grid-row-gap: 25px;
   grid-template-columns: 1fr 1fr;
-  margin-top: 10px;
+  margin-top: 25px;
   margin-bottom: 15px;
 }
 

@@ -13,7 +13,6 @@ export default {
     filteredStarships: (state) => (name) => {
       return state.starshipData.results.filter(
         (starshipdata) => {
-          console.log(starshipdata)
           let newName = starshipdata.name.toLowerCase()
           return newName.match(name)
         }

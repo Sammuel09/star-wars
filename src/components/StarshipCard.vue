@@ -18,7 +18,7 @@
                 <!-- This button emits the open=modal event with the value of url back to the parent.
                     This way the modal in the parent can display the info for each starship -->
                 <div class="read-more">
-                    <b-button v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
+                    <b-button size='sm' v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
                 </div>
             </div>
         </div>
@@ -62,9 +62,7 @@ export default {
 .card-name{
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
-    margin-bottom: 25px;
-    margin-right: 10px;
+    padding: 20px;
 }
 
 .card-name p{
@@ -73,7 +71,6 @@ export default {
 
 .card-name-title{
     font-weight: bold;
-    margin-top: 20px;
 }
 
 .card-name-nickname{
