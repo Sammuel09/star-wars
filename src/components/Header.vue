@@ -16,7 +16,13 @@
                <p>Find your favorite Characters, Films, Species, Starships and Planets</p>
             </div>
             <div class="search">
-                <b-form-input v-model="text" size="lg" placeholder="Enter a search term"></b-form-input>
+                <b-form-input
+                type="search"
+                v-model="searchTerm"
+                size="lg"
+                placeholder="Enter a search term"
+                @keyup="changeMethod"
+                v-on:keyup="$emit('search', searchTerm)"></b-form-input>
             </div>
         </div>
     </div>
@@ -29,7 +35,12 @@ export default {
   },
   data () {
     return {
-      text: ''
+      searchTerm: ''
+    }
+  },
+  methods: {
+    changeMethod () {
+      console.log(this.searchTerm)
     }
   }
 }
