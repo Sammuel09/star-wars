@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <Header/>
+    <Header
+    v-on:search="searchMethod"/>
     <div class="container">
         <div class="headline-top">
             <p class="headline">Popular Planets</p>
@@ -53,7 +54,7 @@
         </template>
       </b-modal>
       <div class="grid-container">
-        <div v-for="planet in planets" :key="planet.name">
+        <div v-for="planet in filteredPlanets(searchData)" :key="planet.name">
           <PlanetCard
           :name="planet.name"
           :temperature="planet.climate"
@@ -61,6 +62,12 @@
           :url="planet.url"
           v-on:open-modal="openModal"/>
         </div>
+      </div>
+      <div class="empty-search" v-if="filteredPlanets(searchData).length == 0">
+          <img src="@/assets/no_data.svg" alt="No Data" class="empty-search-image">
+          <div class="empty-search-text">
+            No results
+          </div>
       </div>
       <div class="pagination">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
@@ -90,7 +97,8 @@ export default {
   data () {
     return {
       linkGen: '',
-      planetData: 'https://swapi.co/api/planets/2/'
+      planetData: 'https://swapi.co/api/planets/2/',
+      searchData: ''
     }
   },
   created () {
@@ -102,6 +110,10 @@ export default {
     ]),
     openModal (url) {
       this.planetData = url
+    },
+    searchMethod (searchValue) {
+      this.searchData = searchValue.toLowerCase()
+      console.log(searchValue)
     }
   },
   computed: {
@@ -111,7 +123,8 @@ export default {
       error: state => state.Planets.error
     }),
     ...mapGetters([
-      'getPlanetById'
+      'getPlanetById',
+      'filteredPlanets'
     ])
   }
 }
@@ -208,6 +221,25 @@ select{
   text-transform: capitalize;
   font-weight: bold;
   margin-left: 20px;
+}
+
+.empty-search{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-search-text{
+  display: flex;
+  // justify-items: center;
+  background-color: yellow;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.empty-search-image{
+  width: 40%;
+  height: 40%;
 }
 
 @media only screen and (max-width: 800px) {

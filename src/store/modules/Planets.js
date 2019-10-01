@@ -9,7 +9,26 @@ export default {
   getters: {
     getPlanetById: (state) => (url) => {
       return state.planetData.results.find(planet => planet.url === url)
-    }
+    },
+    filteredPlanets: (state) => (name) => {
+      return state.planetData.results.filter(
+        (planetdata) => {
+          console.log(planetdata)
+          let newName = planetdata.name.toLowerCase()
+          return newName.match(name)
+        }
+      )
+    },
+
+    // filteredStarships: (state) => (name) => {
+    //   return state.starshipData.results.filter(
+    //     (starshipdata) => {
+    //       console.log(starshipdata)
+    //       let newName = starshipdata.name.toLowerCase()
+    //       return newName.match(name)
+    //     }
+    //   )
+    // }
   },
   mutations: {
     FETCH_PLANETS_LOADING (state) {

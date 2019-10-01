@@ -7,11 +7,17 @@ export default {
     error: ''
   },
   getters: {
-    // getPersonById: (state) => (url) => {
-    //   return state.peopleData.results.find(person => person.url === url)
-    // },
     getStarshipById: (state) => (url) => {
       return state.starshipData.results.find(starship => starship.url === url)
+    },
+    filteredStarships: (state) => (name) => {
+      return state.starshipData.results.filter(
+        (starshipdata) => {
+          console.log(starshipdata)
+          let newName = starshipdata.name.toLowerCase()
+          return newName.match(name)
+        }
+      )
     }
   },
   mutations: {

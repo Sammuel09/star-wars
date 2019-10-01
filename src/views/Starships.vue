@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <Header/>
+    <Header
+    v-on:search="searchMethod"/>
     <div class="container">
         <div class="headline-top">
             <p class="headline">Popular Starships</p>
@@ -61,7 +62,7 @@
         </template>
       </b-modal>
       <div class="grid-container">
-        <div v-for="starship in starships" :key="starship.name">
+        <div v-for="starship in filteredStarships(searchData)" :key="starship.name">
           <StarshipCard
           :name="starship.name"
           :model="starship.model"
@@ -69,6 +70,12 @@
           :url="starship.url"
           v-on:open-modal="openModal"/>
         </div>
+      </div>
+      <div class="empty-search" v-if="filteredStarships(searchData).length == 0">
+          <img src="@/assets/no_data.svg" alt="No Data" class="empty-search-image">
+          <div class="empty-search-text">
+            No results
+          </div>
       </div>
       <div class="pagination">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
@@ -98,7 +105,8 @@ export default {
   data () {
     return {
       linkGen: '',
-      starshipData: 'https://swapi.co/api/starships/15/'
+      starshipData: 'https://swapi.co/api/starships/15/',
+      searchData: ''
     }
   },
   created () {
@@ -109,8 +117,11 @@ export default {
       'getStarships'
     ]),
     openModal (url) {
-      console.log('hello')
       this.starshipData = url
+    },
+    searchMethod (searchValue) {
+      this.searchData = searchValue.toLowerCase()
+      console.log(searchValue)
     }
   },
   computed: {
@@ -120,7 +131,8 @@ export default {
       error: state => state.Starship.error
     }),
     ...mapGetters([
-      'getStarshipById'
+      'getStarshipById',
+      'filteredStarships'
     ])
   }
 }
@@ -217,6 +229,25 @@ select{
   text-transform: capitalize;
   font-weight: bold;
   margin-left: 20px;
+}
+
+.empty-search{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-search-text{
+  display: flex;
+  // justify-items: center;
+  background-color: yellow;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.empty-search-image{
+  width: 40%;
+  height: 40%;
 }
 
 @media only screen and (max-width: 800px) {

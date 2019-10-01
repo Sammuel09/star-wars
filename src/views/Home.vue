@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <Header/>
+    <Header
+    v-on:search="searchMethod"
+    />
     <div class="container">
         <div class="headline-top">
         <p class="headline">Starwars Characters</p>
@@ -79,7 +81,7 @@
         </template>
       </b-modal>
       <div class="grid-container">
-        <div v-for="person in peopleData" :key="person.name">
+        <div v-for="person in filteredPersons(searchData)" :key="person.name">
 
           <!-- The open-modal custom event listens for an emit event from the child component
               On receiving the emit event, it fires the openModal method that opens the modal -->
@@ -90,6 +92,12 @@
           :url="person.url"
           v-on:open-modal="openModal"/>
         </div>
+      </div>
+      <div class="empty-search" v-if="filteredPersons(searchData).length == 0">
+          <img src="@/assets/no_data.svg" alt="No Data" class="empty-search-image">
+          <div class="empty-search-text">
+            No results
+          </div>
       </div>
       <div class="pagination">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
@@ -122,7 +130,8 @@ export default {
       filterOptions: ['Male', 'Female', 'Robot'],
       linkGen: '',
       isModalVisible: false,
-      data: 'https://swapi.co/api/people/1/'
+      data: 'https://swapi.co/api/people/1/',
+      searchData: ''
     }
   },
   created () {
@@ -134,6 +143,10 @@ export default {
     ]),
     openModal (url) {
       this.data = url
+    },
+    searchMethod (searchValue) {
+      this.searchData = searchValue.toLowerCase()
+      console.log(searchValue)
     }
   },
   computed: {
@@ -143,7 +156,8 @@ export default {
       error: state => state.Home.error
     }),
     ...mapGetters([
-      'getPersonById'
+      'getPersonById',
+      'filteredPersons'
     ])
   }
 }
@@ -204,7 +218,7 @@ select{
   display: grid;
   grid-column-gap: 15px;
   grid-row-gap: 15px;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   margin-top: 10px;
   margin-bottom: 15px;
 }
@@ -240,6 +254,25 @@ select{
   text-transform: capitalize;
   font-weight: bold;
   margin-left: 20px;
+}
+
+.empty-search{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-search-text{
+  display: flex;
+  // justify-items: center;
+  background-color: yellow;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.empty-search-image{
+  width: 40%;
+  height: 40%;
 }
 
 @media only screen and (max-width: 400px) {

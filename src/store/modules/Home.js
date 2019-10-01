@@ -9,6 +9,15 @@ export default {
   getters: {
     getPersonById: (state) => (url) => {
       return state.peopleData.results.find(person => person.url === url)
+    },
+    filteredPersons: (state) => (name) => {
+      return state.peopleData.results.filter(
+        (data) => {
+          console.log(data)
+          let newName = data.name.toLowerCase()
+          return newName.match(name)
+        }
+      )
     }
   },
   mutations: {
