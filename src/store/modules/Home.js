@@ -10,14 +10,31 @@ export default {
     getPersonById: (state) => (url) => {
       return state.peopleData.results.find(person => person.url === url)
     },
-    filteredPersons: (state) => (name) => {
+    filteredPersonsByName: (state) => (name) => {
       return state.peopleData.results.filter(
         (data) => {
-          console.log(data)
           let newName = data.name.toLowerCase()
           return newName.match(name)
         }
       )
+    },
+    filteredPersonsByGender: (state) => (gender) => {
+      if (gender === 'all') {
+        return state.peopleData.results
+      }
+      return state.peopleData.results.filter(
+        (data) => {
+          console.log(data)
+          return data.gender === gender
+        }
+      )
+    },
+    filteredPersons: (state, getters) => (gender, name) => {
+      if (name === '') {
+        return getters.filteredPersonsByGender(gender)
+      } else {
+        return getters.filteredPersonsByName(name)
+      }
     }
   },
   mutations: {

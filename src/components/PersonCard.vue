@@ -19,7 +19,7 @@
                 <!-- This button emits the open=modal event with the value of url back to the parent.
                     This way the modal in the parent can display the info for each character -->
                 <div class="read-more">
-                  <b-button v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
+                  <b-button size='sm' v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
                 </div>
             </div>
         </div>
@@ -51,32 +51,34 @@ export default {
 
 <style lang="scss" scoped>
 .card{
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-column-gap: 5px;
-    background-color: #f2f2f2;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 5px;
+  background-color: #f2f2f2;
 }
 
+// .card:hover{
+//   background-color: #228CDB;
+// }
+
 .person-image{
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .card-name{
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-bottom: 25px;
-    margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .card-name p{
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .card-name-title{
-    font-weight: bold;
-    margin-top: 20px;
+  font-weight: bold;
 }
 
 .card-name-nickname{
