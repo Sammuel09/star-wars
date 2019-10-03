@@ -3,7 +3,13 @@
     <Header
     v-on:search="searchMethod"
     />
-    <div class="container">
+    <div class="spinner" v-if="loading">
+      <font-awesome-icon icon="spinner" spin/>
+    </div>
+    <div class="error" v-else-if="error">
+          <p>There was an error getting your data from the database</p>
+      </div>
+    <div class="container" v-else>
       <div class="headline-top">
         <p class="headline">Starwars Characters</p>
         <div class="headline-line"></div>
@@ -12,12 +18,6 @@
         <div>
           <b-form-select class="select" size="sm" v-model="gender" :options="options"></b-form-select>
         </div>
-      </div>
-      <div class="spinner" v-if="loading">
-          <font-awesome-icon icon="spinner" spin/>
-      </div>
-      <div class="error" v-if="error">
-          <p>There was an error getting your data from the database</p>
       </div>
       <b-modal
       id="modal-1"
@@ -87,7 +87,24 @@
           </div>
       </div>
       <div class="pagination">
-        <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
+        <button
+        @click="previousPage"
+        :disabled=isDisabledPrev
+        class="btn btn-outline-secondary p-btn"
+        >
+          <span><font-awesome-icon icon="angle-left"/></span>
+        </button>
+        <button
+        @click="nextPage"
+        :disabled=isDisabledNext
+        class="btn btn-outline-secondary">
+          <span><font-awesome-icon icon="angle-right"/></span>
+        </button>
+        <!-- <b-pagination
+        limit=8
+        v-model="currentPage"
+        :total-rows="rows">
+        </b-pagination> -->
       </div>
     </div>
     <Footer />
@@ -113,20 +130,23 @@ export default {
   data () {
     return {
       gender: 'all',
-      linkGen: '',
       isModalVisible: false,
-      data: 'https://swapi.co/api/people/1/',
+      // data: 'https://swapi.co/api/people/12/',
+      data: '',
       searchData: '',
       options: [
         { value: 'all', text: 'All' },
         { value: 'male', text: 'Male' },
         { value: 'female', text: 'Female' },
         { value: 'n/a', text: 'Robot' }
-      ]
+      ],
+      pageNumber: 1,
+      isDisabledPrev: true,
+      isDisabledNext: false
     }
   },
   created () {
-    this.getPeople()
+    this.getPeople(1)
   },
   methods: {
     ...mapActions([
@@ -137,7 +157,22 @@ export default {
     },
     searchMethod (searchValue) {
       this.searchData = searchValue.toLowerCase()
-      console.log(searchValue)
+    },
+    nextPage () {
+      this.pageNumber++
+      this.isDisabledPrev = false
+      if (this.pageNumber === 9) {
+        this.isDisabledNext = true
+      }
+      return this.getPeople(this.pageNumber)
+    },
+    previousPage () {
+      this.pageNumber--
+      this.isDisabledNext = false
+      if (this.pageNumber === 1) {
+        this.isDisabledPrev = true
+      }
+      this.getPeople(this.pageNumber)
     }
   },
   computed: {
@@ -207,8 +242,8 @@ select{
 
 .grid-container{
   display: grid;
-  grid-column-gap: 25px;
-  grid-row-gap: 25px;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
   grid-template-columns: 1fr 1fr;
   margin-top: 25px;
   margin-bottom: 15px;
@@ -216,8 +251,8 @@ select{
 
 .spinner{
   text-align: center;
-  font-size: 100px;
-  margin-top: 70px;
+  font-size: 150px;
+  margin-top: 100px;
 }
 
 .error{
@@ -229,7 +264,7 @@ select{
   display: flex;
   justify-content: center;
   margin-top:35px;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 
 .modal-info{

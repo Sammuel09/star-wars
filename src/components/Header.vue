@@ -16,6 +16,9 @@
                <p>Find your favorite Characters, Films, Species, Starships and Planets</p>
             </div>
             <div class="search">
+            <!-- <div style="padding-left: 20px">
+                <font-awesome-icon icon="search" style="color: white"/>
+            </div> -->
                 <b-form-input
                 type="search"
                 v-model="searchTerm"
@@ -29,9 +32,11 @@
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 export default {
   name: 'Header',
   components: {
+    FontAwesomeIcon
   },
   data () {
     return {

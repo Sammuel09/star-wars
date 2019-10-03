@@ -2,17 +2,17 @@
   <div class="home">
     <Header
     v-on:search="searchMethod"/>
-    <div class="container">
+    <div v-if="loading" class="spinner">
+      <font-awesome-icon icon="spinner" spin/>
+    </div>
+    <div v-else-if="error" class="error">
+      <p>There was an error getting your starshipData from the starshipDatabase</p>
+    </div>
+    <div v-else class="container">
         <div class="headline-top">
             <p class="headline">Popular Starships</p>
             <div class="headline-line"></div>
         </div>
-      <div class="spinner" v-if="loading">
-          <font-awesome-icon icon="spinner" spin/>
-      </div>
-      <div class="error" v-if="error">
-          <p>There was an error getting your starshipData from the starshipDatabase</p>
-      </div>
       <b-modal
       id="modal-1"
       size="md"
@@ -78,7 +78,19 @@
           </div>
       </div>
       <div class="pagination">
-        <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
+        <button
+        @click="previousPage"
+        :disabled=isDisabledPrev
+        class="btn btn-outline-secondary p-btn"
+        >
+          <span><font-awesome-icon icon="angle-left"/></span>
+        </button>
+        <button
+        @click="nextPage"
+        :disabled=isDisabledNext
+        class="btn btn-outline-secondary">
+          <span><font-awesome-icon icon="angle-right"/></span>
+        </button>
       </div>
     </div>
     <Footer />
@@ -92,7 +104,6 @@ import Footer from '@/components/Footer.vue'
 import StarshipCard from '@/components/StarshipCard.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-// import vSelect from 'vue-select'
 
 export default {
   name: 'starships',
@@ -104,13 +115,15 @@ export default {
   },
   data () {
     return {
-      linkGen: '',
-      starshipData: 'https://swapi.co/api/starships/15/',
-      searchData: ''
+      starshipData: '',
+      searchData: '',
+      isDisabledPrev: true,
+      isDisabledNext: false,
+      pageNumber: 1
     }
   },
   created () {
-    this.getStarships()
+    this.getStarships(1)
   },
   methods: {
     ...mapActions([
@@ -122,6 +135,22 @@ export default {
     searchMethod (searchValue) {
       this.searchData = searchValue.toLowerCase()
       console.log(searchValue)
+    },
+    nextPage () {
+      this.pageNumber++
+      this.isDisabledPrev = false
+      if (this.pageNumber === 4) {
+        this.isDisabledNext = true
+      }
+      return this.getStarships(this.pageNumber)
+    },
+    previousPage () {
+      this.pageNumber--
+      this.isDisabledNext = false
+      if (this.pageNumber === 1) {
+        this.isDisabledPrev = true
+      }
+      this.getStarships(this.pageNumber)
     }
   },
   computed: {
@@ -200,8 +229,8 @@ select{
 
 .spinner{
   text-align: center;
-  font-size: 100px;
-  margin-top: 70px;
+  font-size: 150px;
+  margin-top: 100px;
 }
 
 .error{

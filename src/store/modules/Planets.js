@@ -8,6 +8,9 @@ export default {
   },
   getters: {
     getPlanetById: (state) => (url) => {
+      if (url === '') {
+        return ''
+      }
       return state.planetData.results.find(planet => planet.url === url)
     },
     filteredPlanets: (state) => (name) => {
@@ -27,20 +30,18 @@ export default {
       state.planetData = payload
       state.loading = false
     },
-    FETCH_PLANET_ERROR (state, payload) {
+    FETCH_PLANETS_ERROR (state, payload) {
       state.error = payload
       state.loading = false
     }
   },
   actions: {
-    getPlanets: async ({ commit }) => {
+    getPlanets: async ({ commit }, pageNumber) => {
       commit('FETCH_PLANETS_LOADING')
       try {
-        const data = await axiosCalls.Get(`planets/`)
-        console.log(data)
+        const data = await axiosCalls.Get(`planets/?page=${pageNumber}`)
         if (data) {
           const { results } = data
-          console.log(results)
           commit('FETCH_PLANETS_SUCCESS', { results })
         }
       } catch (error) {

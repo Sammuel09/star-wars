@@ -8,6 +8,9 @@ export default {
   },
   getters: {
     getPersonById: (state) => (url) => {
+      if (url === '') {
+        return ''
+      }
       return state.peopleData.results.find(person => person.url === url)
     },
     filteredPersonsByName: (state) => (name) => {
@@ -18,13 +21,12 @@ export default {
         }
       )
     },
-    filteredPersonsByGender: (state) => (gender) => {
+    filteredPersonsByGender: (state, { commit }) => (gender) => {
       if (gender === 'all') {
         return state.peopleData.results
       }
       return state.peopleData.results.filter(
         (data) => {
-          console.log(data)
           return data.gender === gender
         }
       )
@@ -51,18 +53,16 @@ export default {
     }
   },
   actions: {
-    getPeople: async ({ commit }) => {
+    getPeople: async ({ commit }, pageNumber) => {
       commit('FETCH_PEOPLE_LOADING')
       try {
-        const data = await axiosCalls.Get(`people/`)
-        console.log(data)
+        const data = await axiosCalls.Get(`people/?page=${pageNumber}`)
         if (data) {
           const { results } = data
-          console.log(results)
           commit('FETCH_PEOPLE_SUCCESS', { results })
         }
       } catch (error) {
-        commit('FETCH_PRODUCTS_ERROR', error)
+        commit('FETCH_PEOPLE_ERROR', error)
       }
     }
   }
