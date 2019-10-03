@@ -1,7 +1,9 @@
 
 <template>
     <div class="card">
-        <img src="@/assets/starship-3.jpg" alt="A Starwars Starship" class="starship-image">
+        <div class="starship-image">
+
+        </div>
         <div>
               <div class="card-name">
                 <p class="card-name-title">{{name}}</p>
@@ -18,7 +20,7 @@
                 <!-- This button emits the open=modal event with the value of url back to the parent.
                     This way the modal in the parent can display the info for each starship -->
                 <div class="read-more">
-                    <b-button size='sm' v-b-modal.modal-1 @click="$emit('open-modal', url)" >Read More</b-button>
+                    <b-button size='lg' v-b-modal.modal-1 @click="$emit('open-modal', url)" class="rd-btn">Read More</b-button>
                 </div>
             </div>
         </div>
@@ -49,14 +51,27 @@ export default {
 
 <style lang="scss" scoped>
 .card{
-    display: flex;
-    flex-direction: column;
     background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.7fr 1fr;
+    overflow: hidden;
 }
 
 .starship-image{
     height: 100%;
     width: 100%;
+    background-image: url('../assets/starship-3.jpg');
+    background-size: cover;
+    background-position: center;
+    object-fit: cover;
+    opacity: 0.9;
+}
+
+.starship-image:hover{
+  opacity: 1;
+  transform: scale(1.1);
+  transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95)
 }
 
 .card-name{
@@ -95,16 +110,11 @@ export default {
 }
 
 .read-more{
-    display: flex;
-    justify-content: flex-end;
     margin-top: 10px;
 }
 
-@media only screen and (max-width: 400px) {
-  .card{
-    display: flex;
-    flex-direction: column;
-    background-color: #f2f2f2;
+.rd-btn{
+  width: 100%;
 }
-}
+
 </style>

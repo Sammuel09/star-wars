@@ -8,6 +8,9 @@ export default {
   },
   getters: {
     getPersonById: (state) => (url) => {
+      if (url === '') {
+        return ''
+      }
       return state.peopleData.results.find(person => person.url === url)
     },
     filteredPersonsByName: (state) => (name) => {
@@ -50,14 +53,12 @@ export default {
     }
   },
   actions: {
-    getPeople: async ({ commit }) => {
+    getPeople: async ({ commit }, pageNumber) => {
       commit('FETCH_PEOPLE_LOADING')
       try {
-        const data = await axiosCalls.Get(`people/`)
-        console.log(data)
+        const data = await axiosCalls.Get(`people/?page=${pageNumber}`)
         if (data) {
           const { results } = data
-          console.log(results)
           commit('FETCH_PEOPLE_SUCCESS', { results })
         }
       } catch (error) {

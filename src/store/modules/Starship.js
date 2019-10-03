@@ -8,6 +8,9 @@ export default {
   },
   getters: {
     getStarshipById: (state) => (url) => {
+      if (url === '') {
+        return ''
+      }
       return state.starshipData.results.find(starship => starship.url === url)
     },
     filteredStarships: (state) => (name) => {
@@ -33,13 +36,12 @@ export default {
     }
   },
   actions: {
-    getStarships: async ({ commit }) => {
+    getStarships: async ({ commit }, pageNumber) => {
       commit('FETCH_STARSHIPS_LOADING')
       try {
-        const data = await axiosCalls.Get(`starships/`)
+        const data = await axiosCalls.Get(`starships/?page=${pageNumber}`)
         if (data) {
           const { results } = data
-          console.log(results)
           commit('FETCH_STARSHIPS_SUCCESS', { results })
         }
       } catch (error) {

@@ -70,7 +70,23 @@
           </div>
       </div>
       <div class="pagination">
-        <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
+        <button
+          @click="previousPage"
+          :disabled=isDisabledPrev
+          class="btn btn-outline-secondary p-btn"
+        >
+          <span>
+            <font-awesome-icon icon="angle-left"/>
+          </span>
+        </button>
+        <button
+          @click="nextPage"
+          :disabled=isDisabledNext
+          class="btn btn-outline-secondary">
+            <span>
+              <font-awesome-icon icon="angle-right"/>
+            </span>
+        </button>
       </div>
     </div>
     <Footer />
@@ -96,13 +112,15 @@ export default {
   },
   data () {
     return {
-      linkGen: '',
-      planetData: 'https://swapi.co/api/planets/2/',
-      searchData: ''
+      planetData: '',
+      searchData: '',
+      isDisabledPrev: true,
+      isDisabledNext: false,
+      pageNumber: 1
     }
   },
   created () {
-    this.getPlanets()
+    this.getPlanets(1)
   },
   methods: {
     ...mapActions([
@@ -114,6 +132,22 @@ export default {
     searchMethod (searchValue) {
       this.searchData = searchValue.toLowerCase()
       console.log(searchValue)
+    },
+    nextPage () {
+      this.pageNumber++
+      this.isDisabledPrev = false
+      if (this.pageNumber === 6) {
+        this.isDisabledNext = true
+      }
+      return this.getPlanets(this.pageNumber)
+    },
+    previousPage () {
+      this.pageNumber--
+      this.isDisabledNext = false
+      if (this.pageNumber === 1) {
+        this.isDisabledPrev = true
+      }
+      this.getPlanets(this.pageNumber)
     }
   },
   computed: {

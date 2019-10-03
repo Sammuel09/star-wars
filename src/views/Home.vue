@@ -87,7 +87,24 @@
           </div>
       </div>
       <div class="pagination">
-        <b-pagination-nav :link-gen="linkGen" :number-of-pages="2" use-router></b-pagination-nav>
+        <button
+        @click="previousPage"
+        :disabled=isDisabledPrev
+        class="btn btn-outline-secondary p-btn"
+        >
+          <span><font-awesome-icon icon="angle-left"/></span>
+        </button>
+        <button
+        @click="nextPage"
+        :disabled=isDisabledNext
+        class="btn btn-outline-secondary">
+          <span><font-awesome-icon icon="angle-right"/></span>
+        </button>
+        <!-- <b-pagination
+        limit=8
+        v-model="currentPage"
+        :total-rows="rows">
+        </b-pagination> -->
       </div>
     </div>
     <Footer />
@@ -113,20 +130,23 @@ export default {
   data () {
     return {
       gender: 'all',
-      linkGen: '',
       isModalVisible: false,
-      data: 'https://swapi.co/api/people/1/',
+      // data: 'https://swapi.co/api/people/12/',
+      data: '',
       searchData: '',
       options: [
         { value: 'all', text: 'All' },
         { value: 'male', text: 'Male' },
         { value: 'female', text: 'Female' },
         { value: 'n/a', text: 'Robot' }
-      ]
+      ],
+      pageNumber: 1,
+      isDisabledPrev: true,
+      isDisabledNext: false
     }
   },
   created () {
-    this.getPeople()
+    this.getPeople(1)
   },
   methods: {
     ...mapActions([
@@ -137,7 +157,22 @@ export default {
     },
     searchMethod (searchValue) {
       this.searchData = searchValue.toLowerCase()
-      console.log(searchValue)
+    },
+    nextPage () {
+      this.pageNumber++
+      this.isDisabledPrev = false
+      if (this.pageNumber === 9) {
+        this.isDisabledNext = true
+      }
+      return this.getPeople(this.pageNumber)
+    },
+    previousPage () {
+      this.pageNumber--
+      this.isDisabledNext = false
+      if (this.pageNumber === 1) {
+        this.isDisabledPrev = true
+      }
+      this.getPeople(this.pageNumber)
     }
   },
   computed: {
@@ -207,8 +242,8 @@ select{
 
 .grid-container{
   display: grid;
-  grid-column-gap: 25px;
-  grid-row-gap: 25px;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
   grid-template-columns: 1fr 1fr;
   margin-top: 25px;
   margin-bottom: 15px;
@@ -229,7 +264,7 @@ select{
   display: flex;
   justify-content: center;
   margin-top:35px;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 
 .modal-info{
