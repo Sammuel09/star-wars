@@ -1,5 +1,5 @@
 # starwars-app
-This starwars-app is mini project for the Sterling Product Organization assessment. This app consumes the Star Wars API
+This starwars-app is a mini project. This app consumes the Star Wars API
 and displays the information the user. The views are hosted at `https://mini-starwars-app.netlify.com/`
 
 This project was carried out using Vue and Vuex for state management. Thsi project requires a minimum of Node v8 to run.
